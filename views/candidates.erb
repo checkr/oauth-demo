@@ -2,11 +2,14 @@
   <img src="http://hivetechhr.com/wp-content/uploads/2014/02/Taleo.png" width=200>
   DEMO
 </div>
+
+<%= candidates  %>
+
 <div style="margin-top: 50px; text-align:center">
-  <h1>Reports</h1>
+  <h1>Candidates</h1>
   <ul>
-  <% reports.each do |report| %>
-    <li><%= report.id %></li>
-  <% end %>
+    <% candidates.each do |candidate| %>
+      <li><%= candidate['first_name'] %></li>
+    <% end %>
   </ul>
 </div>

@@ -1,0 +1,21 @@
+{
+  "name": "Checkr OAuth Demo",
+  "description": "This app demonstrates the Checkr OAuth integration flow for Checkr partners.",
+  "repository": "https://github.com/checkr/oauth-demo",
+  "success_url": "/",
+  "env": {
+    "CHECKR_CLIENT_ID": {
+      "description": "The client id provided when your application was created."
+    },
+    "CHECKR_CLIENT_SECRET": {
+      "description": "The client secret provided when your application was created."
+    },
+    "REDIRECT_URI": {
+      "description": "The URL the end user will be redirected to after authorization."
+    }
+  },
+  "formation": {
+    "web": 1
+  },
+  "image": "heroku/ruby"
+}

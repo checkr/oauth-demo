@@ -20,7 +20,7 @@ get '/oauth_callback' do
     client_secret: CHECKR_CLIENT_SECRET
   })
 
-  token = response.body['token']
+  token = response['access_token']
 
   candidates = HTTParty.get(
     CHECKR_CANDIDATES_URL,

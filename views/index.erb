@@ -1,16 +1,57 @@
-<div style="margin-top: 20px;">
-  <img src="http://hivetechhr.com/wp-content/uploads/2014/02/Taleo.png" width=200>
-  DEMO
+<div class="jumbotron">
+  <h1>Checkr Oauth Demo</h1>
 </div>
-<div style="margin-top: 100px; text-align:center">
-  <p class="lead">Connect your account with Checkr.</p>
-  <p>In order to run background-checks on your applicants automatically.</p>
 
-  <p>
-    <a class="btn btn-lg btn-primary"
-      href="<%= CHECKR_AUTHORIZE_URL %>/<%= CHECKR_CLIENT_ID %>?redirect_uri=<%= CHECKR_REDIRECT_URL %>"
-      role="button">
-      Connect with Checkr
-    </a>
-  </p>
+<div class="row">
+  <div class="col-md-12 text-center">
+    <p class="lead">Connect your account with Checkr.</p>
+
+    <p>In order to run background-checks on your applicants automatically.</p>
+
+    <p>
+      <a class="btn btn-lg btn-primary"
+        href="<%= CHECKR_AUTHORIZE_URL %>/<%= CHECKR_CLIENT_ID %>?redirect_uri=<%= CHECKR_REDIRECT_URL %>"
+        role="button">
+        Connect with Checkr
+      </a>
+    </p>
+
+    <a class="btn btn-danger" href="/deauthorize">Deauthorize</a>
+  </div>
 </div>
+
+<br>
+<hr>
+
+<% if @candidates %>
+  <div class='row'>
+    <div class="col-md-12">
+      <h3>Candidates</h3>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <% @headers.each do |header| %>
+              <td>
+                <%= header %>
+              </td>
+            <% end %>
+          </tr>
+        </thead>
+
+        <% @candidates.each do |candidate| %>
+          <tr>
+            <% @headers.each do |col| %>
+              <td>
+                <%= candidate[col] %>
+              </td>
+            <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </table>
+    </div>
+  </div>
+
+  <br>
+  <hr>
+<% end %>

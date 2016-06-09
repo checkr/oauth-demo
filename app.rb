@@ -1,31 +1,49 @@
 require 'sinatra'
 require 'tilt/erb'
 
-CHECKR_CLIENT_ID      = 'XX'
-CHECKR_CLIENT_SECRET  = 'XX'
-CHECKR_REDIRECT_URL   = 'http://localhost:9292/oauth/callback'
-CHECKR_AUTHORIZE_URL  = 'https://dashboard.checkr.com/oauth/authorize'
-CHECKR_TOKENS_URL     = 'https://api.checkr.com/oauth/tokens'
-CHECKR_CANDIDATES_URL = 'https://api.checkr.com/v1/candidates'
+CHECKR_CLIENT_ID        = 'XX'
+CHECKR_CLIENT_SECRET    = 'XX'
+CHECKR_REDIRECT_URL     = 'https://localhost:9292/oauth_callback'
+CHECKR_AUTHORIZE_URL    = 'http://dashboard.checkr.dev/oauth/authorize'
+CHECKR_DEAUTHORIZE_URL  = 'http://api.checkr.dev/oauth/deauthorize'
+CHECKR_TOKENS_URL       = 'http://api.checkr.dev/oauth/tokens'
+CHECKR_CANDIDATES_URL   = 'http://api.checkr.dev/v1/candidates'
 
-get '/' do
-  erb :index, layout: :layout
-end
+class DemoApp < Sinatra::Base
+  enable :sessions
 
-get '/oauth_callback' do
-  code = params[:code]
-  response = HTTParty.post(CHECKR_TOKENS_URL, body: {
-    code: code,
-    client_id: CHECKR_CLIENT_ID,
-    client_secret: CHECKR_CLIENT_SECRET
-  })
+  get '/' do
+    if session['access_token']
+      @headers = %w(id uri first_name last_name dob email report_ids)
+      @candidates = HTTParty.get(
+        CHECKR_CANDIDATES_URL,
+        basic_auth: { username: session["access_token"], password: nil }
+      )['data']
+    end
 
-  token = response['access_token']
+    erb :index, layout: :layout
+  end
 
-  candidates = HTTParty.get(
-    CHECKR_CANDIDATES_URL,
-    basic_auth: { username: token, password: nil }
-  )
+  get '/oauth_callback' do
+    code = params[:code]
 
-  erb :candidates, layout: :layout, candidates: candidates.body
+    response = HTTParty.post(CHECKR_TOKENS_URL, body: {
+      code: code,
+      client_id: CHECKR_CLIENT_ID,
+      client_secret: CHECKR_CLIENT_SECRET
+    })
+
+    session["access_token"] = response['access_token']
+
+    redirect to('/')
+  end
+
+  get '/deauthorize' do
+    HTTParty.post(
+      CHECKR_DEAUTHORIZE_URL,
+      basic_auth: { username: session["access_token"], password: nil }
+    )
+
+    redirect to('/')
+  end
 end

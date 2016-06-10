@@ -6,7 +6,7 @@
 #### Set values for constants in `.env`:
 * `CHECKR_CLIENT_ID='your client id'`
 * `CHECKR_CLIENT_SECRET='your secret key'`
-* `REDIRECT_URL='https://localhost:9292/oauth_callback'`
+* `REDIRECT_URL='https://localhost:9292'`
 
 ### Start webserver
 `foreman start web`

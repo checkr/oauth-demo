@@ -3,7 +3,10 @@
 ### Setup
 `bundle install`
 
-Go in app.rb and set values for constants: `CHECKR_CLIENT_ID`, `CHECKR_CLIENT_SECRET`, `CHECKR_REDIRECT_URL`
+#### Set values for constants in `.env`:
+* `CHECKR_CLIENT_ID='your client id'`
+* `CHECKR_CLIENT_SECRET='your secret key'`
+* `REDIRECT_URL='https://localhost:9292/oauth_callback'`
 
 ### Start webserver
 `foreman start web`

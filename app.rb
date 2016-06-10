@@ -1,13 +1,7 @@
 require 'sinatra'
 require 'tilt/erb'
-
-CHECKR_CLIENT_ID        = 'XX'
-CHECKR_CLIENT_SECRET    = 'XX'
-CHECKR_REDIRECT_URL     = 'https://localhost:9292/oauth_callback'
-CHECKR_AUTHORIZE_URL    = 'http://dashboard.checkr.dev/oauth/authorize'
-CHECKR_DEAUTHORIZE_URL  = 'http://api.checkr.dev/oauth/deauthorize'
-CHECKR_TOKENS_URL       = 'http://api.checkr.dev/oauth/tokens'
-CHECKR_CANDIDATES_URL   = 'http://api.checkr.dev/v1/candidates'
+require 'dotenv'
+Dotenv.load
 
 class DemoApp < Sinatra::Base
   enable :sessions
@@ -16,7 +10,7 @@ class DemoApp < Sinatra::Base
     if session['access_token']
       @headers = %w(id uri first_name last_name dob email report_ids)
       @candidates = HTTParty.get(
-        CHECKR_CANDIDATES_URL,
+        ENV['CHECKR_API'] + ENV['CHECKR_CANDIDATES_URL'],
         basic_auth: { username: session["access_token"], password: nil }
       )['data']
     end
@@ -27,10 +21,10 @@ class DemoApp < Sinatra::Base
   get '/oauth_callback' do
     code = params[:code]
 
-    response = HTTParty.post(CHECKR_TOKENS_URL, body: {
+    response = HTTParty.post(ENV['CHECKR_API'] + ENV['CHECKR_TOKENS_URL'], body: {
       code: code,
-      client_id: CHECKR_CLIENT_ID,
-      client_secret: CHECKR_CLIENT_SECRET
+      client_id: ENV['CHECKR_CLIENT_ID'],
+      client_secret: ENV['CHECKR_CLIENT_SECRET']
     })
 
     session["access_token"] = response['access_token']
@@ -40,7 +34,7 @@ class DemoApp < Sinatra::Base
 
   get '/deauthorize' do
     HTTParty.post(
-      CHECKR_DEAUTHORIZE_URL,
+      ENV['CHECKR_API'] + ENV['CHECKR_DEAUTHORIZE_URL'],
       basic_auth: { username: session["access_token"], password: nil }
     )
 

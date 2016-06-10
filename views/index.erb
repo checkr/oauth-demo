@@ -10,7 +10,7 @@
 
     <p>
       <a class="btn btn-lg btn-primary"
-        href="<%= CHECKR_AUTHORIZE_URL %>/<%= CHECKR_CLIENT_ID %>?redirect_uri=<%= CHECKR_REDIRECT_URL %>"
+        href="<%= ENV['CHECKR_AUTHORIZE_URL'] %>/<%= ENV['CHECKR_CLIENT_ID'] %>?redirect_uri=<%= ENV['REDIRECT_URL'] %>"
         role="button">
         Connect with Checkr
       </a>

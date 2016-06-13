@@ -10,7 +10,7 @@ class DemoApp < Sinatra::Base
     if session['access_token']
       @headers = %w(id uri first_name last_name dob email report_ids)
       @candidates = HTTParty.get(
-        ENV['CHECKR_API'] + ENV['CHECKR_CANDIDATES_URL'],
+        "#{ENV['CHECKR_API']}#{ENV['CHECKR_CANDIDATES_URL']}?test=true",
         basic_auth: { username: session["access_token"], password: nil }
       )['data']
     end

@@ -18,6 +18,24 @@ class DemoApp < Sinatra::Base
     erb :index, layout: :layout
   end
 
+  get '/new_candidate' do
+    response = HTTParty.post(ENV['CHECKR_API'] + '/v1/candidates',
+      basic_auth: { username: session["access_token"], password: nil },
+      body: {
+        first_name:             'Your',
+        middle_name:            'Full',
+        last_name:              'Name',
+        email:                  'your.name@example.com',
+        phone:                  '5555555555',
+        zipcode:                '90401',
+        dob:                    '1970-01-22',
+        ssn:                    '111-11-2001',
+        driver_license_number:  'F1112001',
+        driver_license_state:   'CA'
+      }
+    )
+  end
+
   get '/oauth_callback' do
     code = params[:code]
 

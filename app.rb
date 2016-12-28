@@ -5,10 +5,10 @@ Dotenv.load
 
 class DemoApp < Sinatra::Base
   enable :sessions
-  CHECKR_AUTHORIZE_URL    = "http://dashboard.checkr.com/oauth/authorize/" \
+  CHECKR_AUTHORIZE_URL    = "#{ENV["CHECKR_OAUTH_URL"] || 'http://dashboard.checkr.com/oauth/authorize'}/" \
                             "#{ENV["CHECKR_CLIENT_ID"]}" \
                             "?redirect_uri=#{ENV["REDIRECT_URI"]}"
-  CHECKR_API              = "https://api.checkr.com"
+  CHECKR_API              = ENV["CHECKR_API_URL"] || 'https://api.checkr.com'
   CHECKR_DEAUTHORIZE_URL  = "/oauth/deauthorize"
   CHECKR_TOKENS_URL       = "/oauth/tokens"
   CHECKR_CANDIDATES_URL   = "/v1/candidates"

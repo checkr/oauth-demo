@@ -5,10 +5,13 @@ This repository contains a sample app that demonstrates OAuth integration as wel
 ### Setup
 `bundle install`
 
-#### Set values for constants in `.env`:
-* `CHECKR_CLIENT_ID='your client id'`
-* `CHECKR_CLIENT_SECRET='your secret key'`
-* `REDIRECT_URI='https://your-domain.com/oauth_callback'`
+#### Set environment variables
+
+* Copy `.env.example` to `.env`
+* Set variables as:
+  * `CHECKR_CLIENT_ID='your client id'`
+  * `CHECKR_CLIENT_SECRET='your secret key'`
+  * `REDIRECT_URI='https://your-domain.com/oauth_callback'`
 
 ### Start webserver
 `foreman start web`
